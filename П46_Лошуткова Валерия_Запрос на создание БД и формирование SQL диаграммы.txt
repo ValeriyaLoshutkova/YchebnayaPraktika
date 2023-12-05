@@ -1,0 +1,70 @@
+CREATE DATABASE P46_Podpisnue_izdaniya_Loshutkova
+
+USE P46_Podpisnue_izdaniya_Loshutkova
+
+CREATE TABLE Tip_podpischika(
+Kod_tipa_podpischika INT NOT NULL PRIMARY KEY,
+Naimenovanie_tipa_podpischika VARCHAR(50) NOT NULL);
+
+CREATE TABLE Dolzhnost(
+Kod_dolzhnosti INT NOT NULL PRIMARY KEY,
+Naimenovanie_dolzhnosti VARCHAR(50) NOT NULL));
+
+CREATE TABLE Tip_kataloga(
+Kod_tipa_kataloga INT NOT NULL PRIMARY KEY,
+Naimenovanie_tipa_kataloga VARCHAR(50) NOT NULL));
+
+CREATE TABLE Organizatsiya(
+Kod_organizatsii INT NOT NULL PRIMARY KEY,
+Naimenovanie_organizatsii VARCHAR(50) NOT NULL,
+UPN VARCHAR(50) NOT NULL,
+Bankovskie_rekvizitu VARCHAR(30) NOT NULL,
+Adres VARCHAR(50) NOT NULL,
+Kontaktnuy_telefon VARCHAR(11) NOT NULL,
+Electronnuy_adres VARCHAR(50) NOT NULL));
+
+CREATE TABLE Tip_izdaniya(
+Kod_tipa_izdaniya INT NOT NULL PRIMARY KEY,
+Naimenovanie_tipa_izdaniya VARCHAR(50) NOT NULL);
+
+CREATE TABLE Izdanie(
+Kod_izdaniya INT NOT NULL PRIMARY KEY,
+Naimenovanie_izdaniya VARCHAR(50) NOT NULL,
+Kod_tipa_izdaniya INT NOT NULL FOREIGN KEY REFERENCES Tip_izdaniya(Kod_tipa_izdaniya),
+Stoimost_podpiski INT NOT NULL));
+
+CREATE TABLE Podpischik(
+Kod_podpischika INT NOT NULL PRIMARY KEY,
+Naimenovanie_podpischika VARCHAR(50) NOT NULL,
+Kod_tipa_podpischika INT NOT NULL FOREIGN KEY REFERENCES Tip_podpischika(Kod_tipa_podpischika),
+Adres VARCHAR(50) NOT NULL,
+Bankovskie_rekvizitu VARCHAR(30) NOT NULL,
+Kontaktnuy_telefon VARCHAR(11) NOT NULL,
+Electronnuy_adres VARCHAR(50) NOT NULL);
+
+CREATE TABLE Sotrudnik(
+Kod_sotrudnika INT NOT NULL PRIMARY KEY,
+FIO_sotrudnika VARCHAR(50) NOT NULL,
+Kod_dolzhnosti INT NOT NULL FOREIGN KEY REFERENCES Dolzhnost(Kod_dolzhnosti),
+Pasportnue_dannue VARCHAR(50) NOT NULL,
+Kontaktnuy_telefon VARCHAR(11) NOT NULL,
+Electronnuy_adres VARCHAR(50) NOT NULL);
+
+CREATE TABLE Blank_na_podpisku(
+Kod_blanka_na_podpisku INT NOT NULL PRIMARY KEY,
+Data_oformleniya DATA NOT NULL,
+Kod_organizatsii INT NOT NULL FOREIGN KEY REFERENCES Organizatsiya(Kod_organizatsii),
+Kod_podpischika INT NOT NULL FOREIGN KEY REFERENCES Podpischik(Kod_podpischika),
+Kod_tipa_kataloga INT NOT NULL FOREIGN KEY REFERENCES Tip_kataloga(Kod_tipa_kataloga),
+Kod_izdaniya INT NOT NULL FOREIGN KEY REFERENCES Organizatsiya(Kod_izdaniya),
+Podpisnoy_period_mesyatsev VARCHAR(50) NOT NULL,
+Kolichestvo_komplektov INT NOT NULL,
+Stoimost_podpiski_na_mesyats INT NOT NULL,
+Stavka_NDS INT NOT NULL,
+Summa_NDS INT NOT NULL,
+Itogo INT NOT NULL,
+Kod_sotrudnika INT NOT NULL FOREIGN KEY REFERENCES Sotrudnik(Kod_sotrudnika),
+Lgotnuy_tarif VARCHAR(50) NOT NULL,
+Primechanie VARCHAR(50) NOT NULL);
+
+
